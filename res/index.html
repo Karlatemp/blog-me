@@ -21,6 +21,9 @@
     <link href="assets/css/style.css" rel="stylesheet" th:href="@{${prefix} + '/css/style.css'}" />
     <link href="assets/css/responsive.css" rel="stylesheet" th:href="@{${prefix} + '/css/responsive.css'}">
 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -136,7 +139,8 @@
 
 
         <!--Start  Footer -->
-        <footer class="footer-main" th:utext="${copyright}">Copyright &copy; 2018.Company name All rights reserved.</footer>
+        <footer class="footer-main" th:utext="${copyright}">Copyright &copy; 2018.Company name All rights reserved.
+        </footer>
         <!--End footer -->
 
     </div>
