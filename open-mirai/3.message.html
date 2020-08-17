@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="https://karlatemp.github.io/blog/assets/images/favicon.png" type="image/png" />
-    <title>0.Hello</title>
+    <title>3.message</title>
 
     <!--Begin  Page Level  CSS -->
     <link href="https://karlatemp.github.io/blog/assets/plugins/morris-chart/morris.css" rel="stylesheet" />
@@ -49,7 +49,7 @@
 
         <div class="left-side-inner">
             <!--Sidebar nav-->
-            <ul class="nav nav-pills nav-stacked custom-nav"><li class="menu-list"><a href="javascript:void(0)"><i class="icon-layers"></i><span>index</span></a><ul class="sub-menu-list"><li><a href="/blog-me/index.html">index</a></li></ul></li><li class="menu-list"><a href="javascript:void(0)"><i class="icon-layers"></i><span>open-mirai</span></a><ul class="sub-menu-list"><li><a href="/blog-me/open-mirai/0.startup.html">0.startup</a></li><li><a href="/blog-me/open-mirai/1.new project.html">1.new project</a></li><li><a href="/blog-me/open-mirai/2.setup-bot.html">2.setup-bot</a></li><li><a href="/blog-me/open-mirai/3.message.html">3.message</a></li><li><a href="/blog-me/open-mirai/4.mirai-console.html">4.mirai-console</a></li></ul></li><li class="menu-list nav-active"><a href="javascript:void(0)"><i class="icon-layers"></i><span>blog</span></a><ul class="sub-menu-list"><li class="active"><a href="/blog-me/blog/0.Hello.html">0.Hello</a></li></ul></li></ul>
+            <ul class="nav nav-pills nav-stacked custom-nav"><li class="menu-list"><a href="javascript:void(0)"><i class="icon-layers"></i><span>index</span></a><ul class="sub-menu-list"><li><a href="/blog-me/index.html">index</a></li></ul></li><li class="menu-list nav-active"><a href="javascript:void(0)"><i class="icon-layers"></i><span>open-mirai</span></a><ul class="sub-menu-list"><li><a href="/blog-me/open-mirai/0.startup.html">0.startup</a></li><li><a href="/blog-me/open-mirai/1.new project.html">1.new project</a></li><li><a href="/blog-me/open-mirai/2.setup-bot.html">2.setup-bot</a></li><li class="active"><a href="/blog-me/open-mirai/3.message.html">3.message</a></li><li><a href="/blog-me/open-mirai/4.mirai-console.html">4.mirai-console</a></li></ul></li><li class="menu-list"><a href="javascript:void(0)"><i class="icon-layers"></i><span>blog</span></a><ul class="sub-menu-list"><li><a href="/blog-me/blog/0.Hello.html">0.Hello</a></li></ul></li></ul>
             <!--End sidebar nav-->
 
         </div>
@@ -76,7 +76,7 @@
         <div class="wrapper">
 
             <!--Start Page Title-->
-            <div class="page-title-box"><h4 class="page-title">0.Hello</h4><ol class="breadcrumb"><li><a href="javascript:void(0)">blog</a></li><li class="active"><a href="javascript:void(0)">0.Hello</a></li></ol><div class="clearfix"></div></div>
+            <div class="page-title-box"><h4 class="page-title">3.message</h4><ol class="breadcrumb"><li><a href="javascript:void(0)">open-mirai</a></li><li class="active"><a href="javascript:void(0)">3.message</a></li></ol><div class="clearfix"></div></div>
             <!--End Page Title-->
 
 
@@ -86,27 +86,43 @@
 
                 <!-- Start inbox widget-->
                 <div class="col-md-12">
-                    <div class="white-box"><h1 id="hello-world"><a href="#hello-world" id="hello-world">Hello World</a></h1>
-<p>HiHi~</p>
-<pre><code>Here is code~
+                    <div class="white-box"><h2 id="发送图片"><a href="#发送图片" id="发送图片">发送图片</a></h2>
+<p>在上一章中, 你似乎已经发现了, 我们有一句 <code>File(&quot;C:\\image.png&quot;).sendAsImage()</code>, 十分好懂, 对吧</p>
+<p>发送图片实际上分为两步, 第一步我们需要上传图片到服务器, 称之为 <code>uploadImage</code>, 然后我们需要直接把图片发出去, 发出去~</p>
+<pre><code class="language-kotlin">val image = uploadImage(File(&quot;C:\\image.jpg&quot;))
+reply(image)
 </code></pre>
-<pre><code class="language-java">public class Test {
-    public static void main(String[] args) {
-        System.out.println(&quot;Hello World!&quot;);
+<p>你可以在 <a href="https://github.com/mamoe/mirai/tree/master/mirai-core/src/commonMain/kotlin/net.mamoe.mirai/message/data">这里</a> 找到 mirai 执行的全部消息类型</p>
+<h2 id="信息组合"><a href="#信息组合" id="信息组合">信息组合</a></h2>
+<p>我们可以组合多种信息, 比如 文本 + 图片 或者 图片 + 文本</p>
+<p>组合一段信息也十分简单, 你只需要想下面那样</p>
+<pre><code class="language-kotlin">val messageChain = uploadImage(...) + &quot; Sub Message&quot;
+</code></pre>
+<p>特别的, 对于字符串 (<code>String</code>) 在第一位的情况下, 我们做点特殊处理,</p>
+<pre><code class="language-kotlin">val messageChain = &quot;&quot;.toMessage() + uploadImage(File(&quot;&quot;))
+</code></pre>
+<p>如果要 at 某个人也十分简单</p>
+<pre><code class="language-kotlin">CoroutineScope(Dispatchers.IO).subscribeAlways&lt;GroupMessageEvent&gt; {
+    val messageAt = sender.at()
+}
+</code></pre>
+<p>判断bot是否被 at 了, 也能十分简单的确认</p>
+<pre><code class="language-kotlin">CoroutineScope(Dispatchers.IO).subscribeAlways&lt;GroupMessageEvent&gt; {
+    if (message.any { it is At &amp;&amp; it.target == bot.id }) {
+        reply(&quot;?&quot;)
     }
 }
 </code></pre>
-<p>Nothing here</p>
-<p>HoHo! <sup id="fnref-1"><a class="footnote-ref" href="#fn-1">1</a></sup></p>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn-1">
-<p>TEST!</p>
-<a href="#fnref-1" class="footnote-backref">&#8617;</a>
-</li>
-</ol>
-</div>
+<h2 id="定点发送信息"><a href="#定点发送信息" id="定点发送信息">定点发送信息</a></h2>
+<p>有时候, 我们需要直接定点发送某段信息, 比如我们的什么服务更新了, 我们可以直接推送到群里, 或者私聊</p>
+<pre><code class="language-kotlin">val group = bot.getGroup(1234567890L)
+group.sendMessage(&quot;Hello!&quot;)
+
+val image = group.uploadImage(File(&quot;image.jpg&quot;)) // 给这个群上传图片, 对此群适用
+
+group.sendMessage(image)
+
+</code></pre>
 </div>
                 </div>
                 <!-- Start inbox widget-->
