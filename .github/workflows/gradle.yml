@@ -7,7 +7,7 @@ on:
   push:
     branches: [ master ]
     paths:
-      - source/*
+      - 'source/*'
 
 jobs:
   build:
