@@ -23,6 +23,8 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Dump
+      run: "tree out-build"
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
