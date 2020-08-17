@@ -167,7 +167,7 @@ public class BlobGenerator {
             variables.put("copyright", "Copyright &copy; Karlatemp 2020. All rights reserved.");
             variables.put("title", new ArrayDeque<>(Splitter.on('/').splitToList(entry.name)).getLast());
             variables.put("wrapper", genWrapper(entry.name));
-            variables.put("prefix", "http://karlatemp.github.io/blog/assets");
+            variables.put("prefix", "/blog/assets");
             variables.put("sidebar", genSidebar(entry.name,
                     "/blog-me/",
                     sidebar));
