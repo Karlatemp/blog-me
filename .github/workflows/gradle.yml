@@ -6,6 +6,7 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ master ]
+    paths: [source]
 
 jobs:
   build:
@@ -25,5 +26,5 @@ jobs:
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.TOKEN_OF_GITHUB }}
         publish_dir: ./out-build
