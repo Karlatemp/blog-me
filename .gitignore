@@ -1,0 +1,7 @@
+build/
+.gradle
+.idea/
+out-build/
+/res/moban-181118239560
+/res/assets
+/res/hello.html
