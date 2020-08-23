@@ -45,17 +45,17 @@ public class BlobGenerator {
         ArrayDeque<String> deque = new ArrayDeque<>();
         Splitter.on('/').split(name).forEach(deque::add);
         String last = deque.removeLast();
-        sb.append("<h4 class=\"page-title\">").append(last).append("</h4><ol class=\"breadcrumb\">");
+        sb.append("<h4 class=\"page-title\">").append(last).append("</h4><ol class=\"breadcrumb\">\n");
         while (true) {
             String first = deque.poll();
             if (first == null) break;
             sb.append("<li><a href=\"javascript:void(0)\">");
             sb.append(first);
-            sb.append("</a></li>");
+            sb.append("</a></li>\n");
         }
         sb.append("<li class=\"active\"><a href=\"javascript:void(0)\">");
         sb.append(last);
-        sb.append("</a></li>");
+        sb.append("</a></li>\n");
         /*<h4 class="page-title">Dashboard1 </h4>
                 <ol class="breadcrumb">
                     <li>
@@ -90,8 +90,8 @@ public class BlobGenerator {
             }
             builder.append("\"><a href=\"javascript:void(0)\"><i class=\"icon-layers\"></i><span>");
             builder.append(me.getKey());
-            builder.append("</span></a>");
-            builder.append("<ul class=\"sub-menu-list\">");
+            builder.append("</span></a>\n");
+            builder.append("<ul class=\"sub-menu-list\">\n");
             for (BlobSidebarGen.SidebarEntry bar : me.getValue()) {
                 builder.append("<li");
                 if (bar.name.equals(name)) {
@@ -107,9 +107,9 @@ public class BlobGenerator {
                     last = iterator.next();
                 } while (iterator.hasNext());
                 builder.append(last);
-                builder.append("</a></li>");
+                builder.append("</a></li>\n");
             }
-            builder.append("</ul></li>");
+            builder.append("\n</ul></li>\n");
         }
         return builder.toString();
     }
