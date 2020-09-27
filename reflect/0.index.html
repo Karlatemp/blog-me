@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="https://karlatemp.github.io/blog/assets/images/favicon.png" type="image/png" />
-    <title>1.2020-08-24</title>
+    <title>0.index</title>
 
     <!--Begin  Page Level  CSS -->
     <link href="https://karlatemp.github.io/blog/assets/plugins/morris-chart/morris.css" rel="stylesheet" />
@@ -49,9 +49,9 @@
 
         <div class="left-side-inner">
             <!--Sidebar nav-->
-            <ul class="nav nav-pills nav-stacked custom-nav"><li class="menu-list"><a href="javascript:void(0)"><i class="icon-layers"></i><span>reflect</span></a>
+            <ul class="nav nav-pills nav-stacked custom-nav"><li class="menu-list nav-active"><a href="javascript:void(0)"><i class="icon-layers"></i><span>reflect</span></a>
 <ul class="sub-menu-list">
-<li><a href="/blog-me/reflect/0.index.html">0.index</a></li>
+<li class="active"><a href="/blog-me/reflect/0.index.html">0.index</a></li>
 <li><a href="/blog-me/reflect/1.module.html">1.module</a></li>
 <li><a href="/blog-me/reflect/2.proxy.html">2.proxy</a></li>
 <li><a href="/blog-me/reflect/3.root.html">3.root</a></li>
@@ -71,10 +71,10 @@
 <li><a href="/blog-me/open-mirai/4.mirai-console.html">4.mirai-console</a></li>
 
 </ul></li>
-<li class="menu-list nav-active"><a href="javascript:void(0)"><i class="icon-layers"></i><span>blog</span></a>
+<li class="menu-list"><a href="javascript:void(0)"><i class="icon-layers"></i><span>blog</span></a>
 <ul class="sub-menu-list">
 <li><a href="/blog-me/blog/0.Hello.html">0.Hello</a></li>
-<li class="active"><a href="/blog-me/blog/1.2020-08-24.html">1.2020-08-24</a></li>
+<li><a href="/blog-me/blog/1.2020-08-24.html">1.2020-08-24</a></li>
 
 </ul></li>
 </ul>
@@ -104,9 +104,9 @@
         <div class="wrapper">
 
             <!--Start Page Title-->
-            <div class="page-title-box"><h4 class="page-title">1.2020-08-24</h4><ol class="breadcrumb">
-<li><a href="javascript:void(0)">blog</a></li>
-<li class="active"><a href="javascript:void(0)">1.2020-08-24</a></li>
+            <div class="page-title-box"><h4 class="page-title">0.index</h4><ol class="breadcrumb">
+<li><a href="javascript:void(0)">reflect</a></li>
+<li class="active"><a href="javascript:void(0)">0.index</a></li>
 </ol><div class="clearfix"></div></div>
             <!--End Page Title-->
 
@@ -117,7 +117,43 @@
 
                 <!-- Start inbox widget-->
                 <div class="col-md-12">
-                    <div class="white-box"><p>无聊的一天~ 没有什么想写的~</p>
+                    <div class="white-box"><h1 id="反射越权"><a href="#反射越权" id="反射越权">反射越权</a></h1>
+<p>这里呢, 讲的反射, 并不是常用的反射, 而是一种更加猛的东西, <a href="https://github.com/Karlatemp/UnsafeAccessor">UnsafeAccessor</a></p>
+<p>我会在这里说出他的实现原理, 以及如何做到绝对越权.</p>
+<p>通过 UnsafeAccessor, 我们能干, 一切能干的事情, Unsafe, 基本相当于 JVM 的 ROOT. 用得好封神, 用不好, 那就爆炸.</p>
+<p>这篇文章, 将会讲述, 如何在不触发任何JVM警告的情况下, 获得 JVM 的 ROOT.</p>
+<p>此篇文章不会触发以下任何警告.</p>
+<pre><code>WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by .... (...) to ....
+WARNING: Please consider reporting this to the maintainers of code.Code
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+</code></pre>
+<pre><code>java.lang.IllegalAccessError: class .... (in unnamed module @0xb4c966a) cannot access class jdk.internal.misc.Unsafe (in module java.base) because module java.base does not export jdk.internal.misc to unnamed module @0xb4c966a
+</code></pre>
+<p>完成越权所必须的权限:</p>
+<pre><code>(&quot;java.lang.RuntimePermission&quot; &quot;createClassLoader&quot;)
+(&quot;java.lang.reflect.ReflectPermission&quot; &quot;suppressAccessChecks&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;accessSystemModules&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;accessClassInPackage.jdk.internal.access&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;accessDeclaredMembers&quot;)
+(&quot;java.lang.reflect.ReflectPermission&quot; &quot;suppressAccessChecks&quot;)
+(&quot;java.util.PropertyPermission&quot; &quot;jdk.proxy.debug&quot; &quot;read&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;accessClassInPackage.jdk.internal.access&quot;)
+(&quot;java.lang.reflect.ReflectPermission&quot; &quot;suppressAccessChecks&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;accessClassInPackage.jdk.internal.access&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;accessClassInPackage.jdk.internal.module&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;accessClassInPackage.sun.nio.ch&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;accessClassInPackage.sun.reflect.annotation&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;accessClassInPackage.jdk.internal.reflect&quot;)
+(&quot;java.lang.reflect.ReflectPermission&quot; &quot;suppressAccessChecks&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;getClassLoader&quot;)
+(&quot;java.util.PropertyPermission&quot; &quot;jdk.proxy.ProxyGenerator.saveGeneratedFiles&quot; &quot;read&quot;)
+(&quot;java.lang.reflect.ReflectPermission&quot; &quot;suppressAccessChecks&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;accessClassInPackage.jdk.internal.access&quot;)
+(&quot;java.lang.RuntimePermission&quot; &quot;accessClassInPackage.jdk.internal.misc&quot;)
+</code></pre>
+<p>我们不探讨 Java8 或者更低版本, 因为 Java8 或者更低版本<strong>没有模块权限控制</strong>, 也<strong>不会输出警告</strong>, 没有任何必要需要在此处探讨.</p>
 </div>
                 </div>
                 <!-- Start inbox widget-->

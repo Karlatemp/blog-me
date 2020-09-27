@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="https://karlatemp.github.io/blog/assets/images/favicon.png" type="image/png" />
-    <title>1.2020-08-24</title>
+    <title>1.module</title>
 
     <!--Begin  Page Level  CSS -->
     <link href="https://karlatemp.github.io/blog/assets/plugins/morris-chart/morris.css" rel="stylesheet" />
@@ -49,10 +49,10 @@
 
         <div class="left-side-inner">
             <!--Sidebar nav-->
-            <ul class="nav nav-pills nav-stacked custom-nav"><li class="menu-list"><a href="javascript:void(0)"><i class="icon-layers"></i><span>reflect</span></a>
+            <ul class="nav nav-pills nav-stacked custom-nav"><li class="menu-list nav-active"><a href="javascript:void(0)"><i class="icon-layers"></i><span>reflect</span></a>
 <ul class="sub-menu-list">
 <li><a href="/blog-me/reflect/0.index.html">0.index</a></li>
-<li><a href="/blog-me/reflect/1.module.html">1.module</a></li>
+<li class="active"><a href="/blog-me/reflect/1.module.html">1.module</a></li>
 <li><a href="/blog-me/reflect/2.proxy.html">2.proxy</a></li>
 <li><a href="/blog-me/reflect/3.root.html">3.root</a></li>
 
@@ -71,10 +71,10 @@
 <li><a href="/blog-me/open-mirai/4.mirai-console.html">4.mirai-console</a></li>
 
 </ul></li>
-<li class="menu-list nav-active"><a href="javascript:void(0)"><i class="icon-layers"></i><span>blog</span></a>
+<li class="menu-list"><a href="javascript:void(0)"><i class="icon-layers"></i><span>blog</span></a>
 <ul class="sub-menu-list">
 <li><a href="/blog-me/blog/0.Hello.html">0.Hello</a></li>
-<li class="active"><a href="/blog-me/blog/1.2020-08-24.html">1.2020-08-24</a></li>
+<li><a href="/blog-me/blog/1.2020-08-24.html">1.2020-08-24</a></li>
 
 </ul></li>
 </ul>
@@ -104,9 +104,9 @@
         <div class="wrapper">
 
             <!--Start Page Title-->
-            <div class="page-title-box"><h4 class="page-title">1.2020-08-24</h4><ol class="breadcrumb">
-<li><a href="javascript:void(0)">blog</a></li>
-<li class="active"><a href="javascript:void(0)">1.2020-08-24</a></li>
+            <div class="page-title-box"><h4 class="page-title">1.module</h4><ol class="breadcrumb">
+<li><a href="javascript:void(0)">reflect</a></li>
+<li class="active"><a href="javascript:void(0)">1.module</a></li>
 </ol><div class="clearfix"></div></div>
             <!--End Page Title-->
 
@@ -117,7 +117,15 @@
 
                 <!-- Start inbox widget-->
                 <div class="col-md-12">
-                    <div class="white-box"><p>无聊的一天~ 没有什么想写的~</p>
+                    <div class="white-box"><h1 id="模块"><a href="#模块" id="模块">模块</a></h1>
+<p>此片段说明了模块的作用.</p>
+<p>模块, Java9 开始引入的一个新的系统 - 模块可以定义其他模块可以访问该模块的什么东西 - 该模块的东西有什么不能被访问 - 模块权限控制是<strong>包级别</strong></p>
+<p>为了更好的明白该文章是如何进行越权的, 我们会先给出一个例子, 便于理解 - 假设有一个模块 <code>protected</code> - <code>protected0.Class0</code> - <code>protected0.Class1</code> - <code>protected0.Class2</code> - <code>protected1.Class1</code> - 有另外一个模块 <code>hacker</code> - 模块 <code>protected</code> export 了 <code>protected0</code> 这个<strong>包</strong>给了<code>hacker</code> - <code>hacker</code> 可以随便访问并使用 <code>protected0</code> 这个包的内容 - <code>hacker</code> 依然没有 <code>protected1</code> 的访问权, 但是 <code>hacker</code> 不需要 <code>protected1</code> 的任何内容 - 如果模块 <code>protected</code> 并没有 export <code>protected0</code> 给 <code>hacker</code> - 那么 <code>hacker</code> 访问 <code>protected0</code> 就会得到一个 <code>java.lang.IllegalAccessError</code></p>
+<p>此时&hellip; - <code>hacker</code> 就是 <code>module UnsafeAccessor</code> - <code>protected</code> 就是 <code>module java.base</code> - <code>protected0</code> 就是 <code>jdk.internal.access</code></p>
+<h2 id="模块的划分"><a href="#模块的划分" id="模块的划分">模块的划分</a></h2>
+<p>在同一个 <code>ClassLoader</code> 下</p>
+<p>假设有以下模块 - <code>module m1</code> - <code>package m1.m1</code> - <code>package m1.m2</code> - <code>module m2</code> - <code>package m2.m1</code> - <code>package m2.m2</code></p>
+<p>当往该 <code>ClassLoader</code> define 一个 <code>Class</code> 的时候, 会自动划分 module. - 如果包名是 <code>m1.m1</code> -&gt; 归 <code>module m1</code> - 如果包名是 <code>m1.m2</code> -&gt; 归 <code>module m1</code> - . - 如果包名是 <code>m2.m1</code> -&gt; 归 <code>module m2</code> - 如果包名是 <code>m2.m2</code> -&gt; 归 <code>module m2</code> - &hellip;.. - 该class归 <code>ClassLoader#getUnnamedModule()</code></p>
 </div>
                 </div>
                 <!-- Start inbox widget-->

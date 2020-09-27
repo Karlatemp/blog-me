@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://karlatemp.github.io/blog/assets/images/favicon.png" type="image/png" />
+    <title>2.proxy</title>
+
+    <!--Begin  Page Level  CSS -->
+    <link href="https://karlatemp.github.io/blog/assets/plugins/morris-chart/morris.css" rel="stylesheet" />
+    <link href="https://karlatemp.github.io/blog/assets/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <!--End  Page Level  CSS -->
+    <link href="https://karlatemp.github.io/blog/assets/css/icons.css" rel="stylesheet">
+    <link href="https://karlatemp.github.io/blog/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://karlatemp.github.io/blog/assets/css/style.css" rel="stylesheet" />
+    <link href="https://karlatemp.github.io/blog/assets/css/responsive.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+          <script src="js/html5shiv.min.js"></script>
+          <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body class="sticky-header">
+
+
+    <!--Start left side Menu-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo-->
+        <div class="logo">
+            <a href="index.html"><img src="https://karlatemp.github.io/blog/assets/images/logo.png" alt=""></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <a href="index.html"><img src="https://karlatemp.github.io/blog/assets/images/logo-icon.png" alt=""></a>
+        </div>
+        <!--logo-->
+
+        <div class="left-side-inner">
+            <!--Sidebar nav-->
+            <ul class="nav nav-pills nav-stacked custom-nav"><li class="menu-list nav-active"><a href="javascript:void(0)"><i class="icon-layers"></i><span>reflect</span></a>
+<ul class="sub-menu-list">
+<li><a href="/blog-me/reflect/0.index.html">0.index</a></li>
+<li><a href="/blog-me/reflect/1.module.html">1.module</a></li>
+<li class="active"><a href="/blog-me/reflect/2.proxy.html">2.proxy</a></li>
+<li><a href="/blog-me/reflect/3.root.html">3.root</a></li>
+
+</ul></li>
+<li class="menu-list"><a href="javascript:void(0)"><i class="icon-layers"></i><span>index</span></a>
+<ul class="sub-menu-list">
+<li><a href="/blog-me/index.html">index</a></li>
+
+</ul></li>
+<li class="menu-list"><a href="javascript:void(0)"><i class="icon-layers"></i><span>open-mirai</span></a>
+<ul class="sub-menu-list">
+<li><a href="/blog-me/open-mirai/0.startup.html">0.startup</a></li>
+<li><a href="/blog-me/open-mirai/1.new project.html">1.new project</a></li>
+<li><a href="/blog-me/open-mirai/2.setup-bot.html">2.setup-bot</a></li>
+<li><a href="/blog-me/open-mirai/3.message.html">3.message</a></li>
+<li><a href="/blog-me/open-mirai/4.mirai-console.html">4.mirai-console</a></li>
+
+</ul></li>
+<li class="menu-list"><a href="javascript:void(0)"><i class="icon-layers"></i><span>blog</span></a>
+<ul class="sub-menu-list">
+<li><a href="/blog-me/blog/0.Hello.html">0.Hello</a></li>
+<li><a href="/blog-me/blog/1.2020-08-24.html">1.2020-08-24</a></li>
+
+</ul></li>
+</ul>
+            <!--End sidebar nav-->
+
+        </div>
+    </div>
+    <!--End left side menu-->
+
+
+    <!-- main content start-->
+    <div class="main-content">
+
+        <!-- header section start-->
+        <div class="header-section">
+
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+
+            <!--notification menu start -->
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+
+            <!--Start Page Title-->
+            <div class="page-title-box"><h4 class="page-title">2.proxy</h4><ol class="breadcrumb">
+<li><a href="javascript:void(0)">reflect</a></li>
+<li class="active"><a href="javascript:void(0)">2.proxy</a></li>
+</ol><div class="clearfix"></div></div>
+            <!--End Page Title-->
+
+
+            <!--Start row-->
+            <div class="row">
+
+
+                <!-- Start inbox widget-->
+                <div class="col-md-12">
+                    <div class="white-box"><h1 id="javalangreflectproxy-提权"><a href="#javalangreflectproxy-提权" id="javalangreflectproxy-提权">java.lang.reflect.Proxy 提权</a></h1>
+<p>Proxy, 原本是 JDK 用于提供给开发者进行动态实现接口的东西. 可能用过, 也可能没有, 但是, 该章节抛开 Proxy 原本的功能不讲, 我们只关注&hellip;. <strong>越权</strong></p>
+<h2 id="proxy-是如何提权的"><a href="#proxy-是如何提权的" id="proxy-是如何提权的">Proxy 是如何提权的</a></h2>
+<p>Proxy, 是用来动态时间接口的, 他的结构大概想下面这样</p>
+<pre><code>[Proxy Instance] -&gt; [InvocationHandler]
+</code></pre>
+<p>然后当我们尝试 proxy <code>jdk.internal.access.JavaLangAccess</code>(或者任何 <code>jdk.internal.access</code> 下的接口) 的时候, 有趣的一幕发生了. 该 proxy 并没有出现任何异常, 也就是该 proxy 已经<strong>拥有了</strong>对 <code>jdk.internal.access</code> 的访问权限</p>
+<pre><code>[Proxy Instance]
+|- [Proxy Class] -&gt; [ProxyPackage].[ProxyClassSimpleName]
+|    `- [Proxy Module]
+|          |
+`[Class Loader]
+</code></pre>
+<p>也就是说, 这个 <code>ProxyClass</code> 所在的 <code>Proxy Module</code>, <strong>已经拥有</strong> 对 <code>jdk.internal.access</code> 的访问权限. 是否一切都清晰起来&hellip;..</p>
+<p>这个时候, 此时给 <code>ClassLoader</code> define 一个 <code>HackerClass</code> = <code>[ProxyPackage].HackerClass</code>, 那么 <code>HackerClass</code> <strong>也拥有</strong> 对 <code>jdk.internal.access</code> 的访问权限&hellip;</p>
+<h1 id="开始提权"><a href="#开始提权" id="开始提权">开始提权</a></h1>
+<p>准备好一个自定义 <code>ClassLoader</code>, 为越权做好准备.</p>
+<pre><code class="language-java">class HackerClassLoader extends ClassLoader {
+    HackerClassLoader() { super(HackerClassLoader.class.getClassLoader()); }
+    Class&lt;?&gt; define(byte[] code) {
+        ProtectionDomain domain = new ProtectionDomain(null,
+                new AllPermission().newPermissionCollection()
+        );
+        return defineClass(null, code, 0, code.length, domain);
+    }
+}
+</code></pre>
+<p>准备好 <code>byte[] replace(byte[] source, byte[] target, byte[] replacement)</code></p>
+<pre><code>replace 源码见 UnsafeAccessor 项目
+</code></pre>
+<p>提前写好越权代码, 需要正确编译, 需要给编译器加上 - <code>--add-exports java.base/jdk.internal.misc=ALL-UNNAMED</code> - <code>--add-exports java.base/jdk.internal.access=ALL-UNNAMED</code> 加上这些是为了保证我们能有正常通过.</p>
+<p>准备好 <code>Injector</code></p>
+<pre><code class="language-java">class Injector {
+    static {
+        Class&lt;?&gt; klass = Injector.class;
+        Module module = klass.getModule();
+        // Injector 将会由 HackerClassLoader 进行加载.
+        Module open = klass.getClassLoader().getClass().getModule();
+        module.addExports(klass.getPackageName(), open);
+        JavaLangAccess javaLangAccess = SharedSecrets.getJavaLangAccess();
+        // 给 Injector 的 ClassLoader 所在的模块访问 `java.base/jdk.internal.misc` 的权利
+        javaLangAccess.addExports(Object.class.getModule(), &quot;jdk.internal.misc&quot;, open);
+        // javaLangAccess.addExports(Object.class.getModule(), &quot;jdk.internal.access&quot;, open);
+    }
+}
+</code></pre>
+<p>重要: <strong>不要</strong>在任何地方直接使用 <code>Injector</code>, 因为 <code>Injector</code> 属于被动态加载的类, 而不是静态硬加载的类</p>
+<p>打开一条访问 <code>jdk.internal.access</code> 的路</p>
+<pre><code class="language-java">HackerClassLoader loader = new HackerClassLoader();
+Class&lt;?&gt; JLA = Class.forName(&quot;jdk.internal.access.JavaLangAccess&quot;);
+Object proxy = Proxy.newProxyInstance(loader, new Class[]{JLA}, (proxy0, method, args) -&gt; null); 
+</code></pre>
+<p>重要: <strong>不能直接使用</strong> <code>jdk.internal.access.JavaLangAccess.class</code>, 将会得到一个 <code>java.lang.IllegalAccessError</code></p>
+<p>完整代码:</p>
+<pre><code class="language-java">// 根据实际情况的不同, 这里的路径也会不同
+try (InputStream source = HackerClassLoader.class.getResourceAsStream(&quot;Injector.class&quot;)) {
+    byte[] data = source.readAllBytes();
+    Class&lt;?&gt; JLA = Class.forName(&quot;jdk.internal.access.JavaLangAccess&quot;); // 绕开 IllegalAccessError
+    Object proxy = Proxy.newProxyInstance(loader, new Class[]{JLA}, (proxy0, method, args) -&gt; null);
+    String namespace = proxy.getClass().getPackageName();
+    String targetName = namespace + &quot;.Injector&quot;,
+            targetJvmName = targetName.replace('.', '/');
+    // 根据实际情况的不同, 此处的替换常量也会不同
+    // 规则: (`Class.forName` 路径).replace('.', '/')
+    data = replace(data, &quot;io/github/karlatemp/unsafeaccessor/Injector&quot;, targetJvmName);
+    data = replace(data, &quot;Lio/github/karlatemp/unsafeaccessor/Injector;&quot;, &quot;L&quot; + targetJvmName + &quot;;&quot;);
+    Class&lt;?&gt; injectorClass = loader.define(data);
+    // 执行 Injector 的 static {} 片段.
+    Class.forName(injectorClass.getName(), true, loader);
+} catch (Exception exception) {
+    throw new ExceptionInInitializerError(exception);
+}
+</code></pre>
+<p>执行结束, 此时, <code>HackerClassLoader</code> 所在的整个模块都可以自由使用 <code>jdk.internal.misc.Unsafe</code></p>
+</div>
+                </div>
+                <!-- Start inbox widget-->
+            </div>
+            <!--End row-->
+
+        </div>
+        <!-- End Wrapper-->
+
+
+        <!--Start  Footer -->
+        <footer class="footer-main">Copyright &copy; Karlatemp 2020. All rights reserved.</footer>
+        <!--End footer -->
+
+    </div>
+    <!--End main content -->
+
+
+
+    <!--Begin core plugin -->
+    <script src="https://karlatemp.github.io/blog/assets/js/jquery.min.js"></script>
+    <script src="https://karlatemp.github.io/blog/assets/js/bootstrap.min.js"></script>
+    <script src="https://karlatemp.github.io/blog/assets/plugins/moment/moment.js"></script>
+    <script src="https://karlatemp.github.io/blog/assets/js/jquery.slimscroll.js"></script>
+    <script src="https://karlatemp.github.io/blog/assets/js/jquery.nicescroll.js"></script>
+    <script src="https://karlatemp.github.io/blog/assets/js/functions.js"></script>
+    <!-- End core plugin -->
+
+    <!--Begin Page Level Plugin-->
+    <script src="https://karlatemp.github.io/blog/assets/plugins/morris-chart/morris.js"></script>
+    <script src="https://karlatemp.github.io/blog/assets/plugins/morris-chart/raphael-min.js"></script>
+    <script src="https://karlatemp.github.io/blog/assets/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <!-- <script src="assets/pages/dashboard.js" th:src="@{${prefix}}"></script> -->
+    <!--End Page Level Plugin-->
+
+
+</body>
+
+</html>
