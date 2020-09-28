@@ -147,7 +147,11 @@
 <p>准备好 <code>byte[] replace(byte[] source, byte[] target, byte[] replacement)</code></p>
 <pre><code>replace 源码见 UnsafeAccessor 项目
 </code></pre>
-<p>提前写好越权代码, 需要正确编译, 需要给编译器加上 - <code>--add-exports java.base/jdk.internal.misc=ALL-UNNAMED</code> - <code>--add-exports java.base/jdk.internal.access=ALL-UNNAMED</code> 加上这些是为了保证我们能有正常通过.</p>
+<p>提前写好越权代码, 需要正确编译, 需要给编译器加上</p>
+<ul>
+<li><code>--add-exports java.base/jdk.internal.misc=ALL-UNNAMED</code></li>
+<li><code>--add-exports java.base/jdk.internal.access=ALL-UNNAMED</code> 加上这些是为了保证我们能有正常通过.</li>
+</ul>
 <p>准备好 <code>Injector</code></p>
 <pre><code class="language-java">class Injector {
     static {

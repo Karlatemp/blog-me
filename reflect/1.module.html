@@ -119,13 +119,68 @@
                 <div class="col-md-12">
                     <div class="white-box"><h1 id="模块"><a href="#模块" id="模块">模块</a></h1>
 <p>此片段说明了模块的作用.</p>
-<p>模块, Java9 开始引入的一个新的系统 - 模块可以定义其他模块可以访问该模块的什么东西 - 该模块的东西有什么不能被访问 - 模块权限控制是<strong>包级别</strong></p>
-<p>为了更好的明白该文章是如何进行越权的, 我们会先给出一个例子, 便于理解 - 假设有一个模块 <code>protected</code> - <code>protected0.Class0</code> - <code>protected0.Class1</code> - <code>protected0.Class2</code> - <code>protected1.Class1</code> - 有另外一个模块 <code>hacker</code> - 模块 <code>protected</code> export 了 <code>protected0</code> 这个<strong>包</strong>给了<code>hacker</code> - <code>hacker</code> 可以随便访问并使用 <code>protected0</code> 这个包的内容 - <code>hacker</code> 依然没有 <code>protected1</code> 的访问权, 但是 <code>hacker</code> 不需要 <code>protected1</code> 的任何内容 - 如果模块 <code>protected</code> 并没有 export <code>protected0</code> 给 <code>hacker</code> - 那么 <code>hacker</code> 访问 <code>protected0</code> 就会得到一个 <code>java.lang.IllegalAccessError</code></p>
-<p>此时&hellip; - <code>hacker</code> 就是 <code>module UnsafeAccessor</code> - <code>protected</code> 就是 <code>module java.base</code> - <code>protected0</code> 就是 <code>jdk.internal.access</code></p>
+<p>模块, Java9 开始引入的一个新的系统</p>
+<ul>
+<li>模块可以定义其他模块可以访问该模块的什么东西</li>
+<li>该模块的东西有什么不能被访问</li>
+<li>模块权限控制是<strong>包级别</strong></li>
+</ul>
+<p>为了更好的明白该文章是如何进行越权的, 我们会先给出一个例子, 便于理解</p>
+<ul>
+<li>假设有一个模块 <code>protected</code>
+<ul>
+<li><code>protected0.Class0</code></li>
+<li><code>protected0.Class1</code></li>
+<li><code>protected0.Class2</code></li>
+<li><code>protected1.Class1</code></li>
+</ul>
+</li>
+<li>有另外一个模块 <code>hacker</code></li>
+<li>模块 <code>protected</code> export 了 <code>protected0</code> 这个<strong>包</strong>给了<code>hacker</code>
+<ul>
+<li><code>hacker</code> 可以随便访问并使用 <code>protected0</code> 这个包的内容</li>
+<li><code>hacker</code> 依然没有 <code>protected1</code> 的访问权, 但是 <code>hacker</code> 不需要 <code>protected1</code> 的任何内容</li>
+</ul>
+</li>
+<li>如果模块 <code>protected</code> 并没有 export <code>protected0</code> 给 <code>hacker</code>
+<ul>
+<li>那么 <code>hacker</code> 访问 <code>protected0</code> 就会得到一个 <code>java.lang.IllegalAccessError</code></li>
+</ul>
+</li>
+</ul>
+<p>此时&hellip;</p>
+<ul>
+<li><code>hacker</code> 就是 <code>module UnsafeAccessor</code></li>
+<li><code>protected</code> 就是 <code>module java.base</code></li>
+<li><code>protected0</code> 就是 <code>jdk.internal.access</code></li>
+</ul>
 <h2 id="模块的划分"><a href="#模块的划分" id="模块的划分">模块的划分</a></h2>
 <p>在同一个 <code>ClassLoader</code> 下</p>
-<p>假设有以下模块 - <code>module m1</code> - <code>package m1.m1</code> - <code>package m1.m2</code> - <code>module m2</code> - <code>package m2.m1</code> - <code>package m2.m2</code></p>
-<p>当往该 <code>ClassLoader</code> define 一个 <code>Class</code> 的时候, 会自动划分 module. - 如果包名是 <code>m1.m1</code> -&gt; 归 <code>module m1</code> - 如果包名是 <code>m1.m2</code> -&gt; 归 <code>module m1</code> - . - 如果包名是 <code>m2.m1</code> -&gt; 归 <code>module m2</code> - 如果包名是 <code>m2.m2</code> -&gt; 归 <code>module m2</code> - &hellip;.. - 该class归 <code>ClassLoader#getUnnamedModule()</code></p>
+<p>假设有以下模块</p>
+<ul>
+<li><code>module m1</code>
+<ul>
+<li><code>package m1.m1</code></li>
+<li><code>package m1.m2</code></li>
+</ul>
+</li>
+<li><code>module m2</code>
+<ul>
+<li><code>package m2.m1</code></li>
+<li><code>package m2.m2</code></li>
+</ul>
+</li>
+</ul>
+<p>当往该 <code>ClassLoader</code> define 一个 <code>Class</code> 的时候, 会自动划分 module.</p>
+<ul>
+<li>如果包名是 <code>m1.m1</code> -&gt; 归 <code>module m1</code></li>
+<li>如果包名是 <code>m1.m2</code> -&gt; 归 <code>module m1</code></li>
+<li>.</li>
+<li>如果包名是 <code>m2.m1</code> -&gt; 归 <code>module m2</code></li>
+<li>如果包名是 <code>m2.m2</code> -&gt; 归 <code>module m2</code></li>
+<li>&hellip;..</li>
+<li>该class归 <code>ClassLoader#getUnnamedModule()</code></li>
+</ul>
 </div>
                 </div>
                 <!-- Start inbox widget-->
